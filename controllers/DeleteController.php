@@ -1,6 +1,5 @@
 <?php
 //获取要删除的userID
-
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $id = $_GET['id'];
 } else {
@@ -10,7 +9,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 $page = $_GET['page'];
 
 //执行删除操作
-require_once 'connMysql.php';
+require_once '../dbUtil.php';
 
 //$id = 1;
 $conn = PdoFactory::getConn();
@@ -23,14 +22,14 @@ if ($ret == true) {
     echo <<<STR
 <script type="text/javascript">
     alert("recode delete succeed!");
-    window.location.href = "index.php?page=$page";
+    window.location.href = "../msgBoard.php?page=$page";
 </script>
 STR;
 } else {
     echo <<<STR
 <script type="text/javascript">
     alert("recode delete failed!");
-    window.location.href = "index.php?page=$page";
+    window.location.href = "../msgBoard.php?page=$page";
 </script>
 STR;
 }

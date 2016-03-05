@@ -1,6 +1,5 @@
 <?php
-
-require_once 'connMysql.php';
+require_once 'dbUtil.php';
 $conn = PdoFactory::getConn();
 
 //获取当前留言信息
@@ -12,34 +11,6 @@ WHERE id = {$id}
 SQL;
 
 $msg = PdoFactory::getResults($conn, $sql)[0];
-var_dump($msg);
-
-//更新信息
-if (isset($_POST['submit'])) {
-
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-
-    $sql = <<<SQL
-UPDATE msgs SET title = "%s", content = "%s" where id = "%d"
-SQL;
-$sql = sprintf($sql, $title, $content, $id);
-$ret = $conn->exec($sql);
-
-if ($ret == 1) {
-    echo <<<STR
-<script type="text/javascript">
-    alert('update recode succeed!');
-    window.location.href = "index.php";
-</script>
-STR;
-} else {
-
-    var_dump($conn->errorInfo());
-}
-exit("update...");
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -49,8 +20,9 @@ exit("update...");
     <title>修改留言</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="Controllers/UpdateController.php?id={$id}" method="post">
     <p>留言标题: <input type="text" name="title" value="<?php echo $msg['title'];?>"/></p>
+    <input type="hidden" name="id" value="<?php echo $id;?>" /></p>
     <p>留言内容: <textarea  name="content"><?php echo $msg['content'];?></textarea></p>
         <p>
             <input type="submit" value="更新" name="submit">

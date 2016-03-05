@@ -25,6 +25,13 @@ SQL;
 
         return $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getPwdByName($db, $name) {
+        $op = $db->prepare('SELECT pwd FROM user WHERE name = :name');
+        $op->bindParam(':name', $name);
+        $op->execute();
+        return $op->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 /*
